@@ -1,2 +1,11 @@
 # HamSandwichViz
-Visualization of the Ham Sandwich Theorem and algorithm for the plane
+Visualization of solutions for the Ham Sandwich Problem
+
+## O(nlogn) Solution in the Plane
+- Edelsbrunner, Herbert; Waupotitsch, R. (1986), "Computing a ham sandwich cut in two dimensions", Journal of Symbolic Computation, 2: 171–178, doi:10.1016/S0747-7171(86)80020-7
+
+## O(n) Solution in the Plane
+- Lo, Chi-Yuan; Steiger, W. L. (1990), "An optimal time algorithm for ham-sandwich cuts in the plane", Proceedings of the Second Canadian Conference on Computational Geometry, pp. 5–9.
+
+## O(n^(d-1)) Solution in d-dimensions
+- Lo, Chi-Yuan; Matoušek, Jiří; Steiger, William L. (1994), "Algorithms for Ham-Sandwich Cuts", Discrete and Computational Geometry, 11: 433–452, doi:10.1007/BF02574017
