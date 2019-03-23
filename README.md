@@ -2,7 +2,7 @@
 Visualization of solutions for the Ham Sandwich Problem
 
 ## Seperable Case
-Megiddo, Nimrod (1985), "Partitioning with two lines in the plane", Journal of Algorithms, 6: 430–433, doi:10.1016/0196-6774(85)90011-2.
+- Megiddo, Nimrod (1985), "Partitioning with two lines in the plane", Journal of Algorithms, 6: 430–433, doi:10.1016/0196-6774(85)90011-2.
 
 ## O(nlogn) Solution in the Plane
 - Edelsbrunner, Herbert; Waupotitsch, R. (1986), "Computing a ham sandwich cut in two dimensions", Journal of Symbolic Computation, 2: 171–178, doi:10.1016/S0747-7171(86)80020-7
