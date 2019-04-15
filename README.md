@@ -15,5 +15,4 @@ Visualization of solutions for the Ham Sandwich Problem
 
 ### Team Members
 - Eric Burt
-- Killian Greene
 - Sam Sledzieski
