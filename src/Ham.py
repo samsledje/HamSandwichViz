@@ -5,8 +5,8 @@ Created on Apr 4, 2019
 '''
 from shapely.geometry import Polygon
 import matplotlib.pyplot as plt
-from builtins import input
-from pip._vendor.distlib.compat import raw_input
+#from builtins import input
+#from pip._vendor.distlib.compat import raw_input
 
 points_red = [] #This is for the first set of points
 points_blue = [] #This is for the second set of points
@@ -33,7 +33,7 @@ def red_input():
         print("Would you like to enter an additional red point?")
         print("[y] Enter another red point")
         print("[n] Continue to blue points")
-        user_choice = raw_input()
+        user_choice = input().strip()
         if user_choice == "y":
             print("You said yes!")
             red_input()
@@ -64,7 +64,7 @@ def blue_input():
         print("Would you like to enter an additional red point?")
         print("[y] Enter another blue point")
         print("[n] Start Ham Sandwich")
-        user_choice = raw_input()
+        user_choice = input().strip()
         if user_choice == "y":
             print("You said yes!")
             red_input()
