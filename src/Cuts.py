@@ -1,37 +1,41 @@
+import math
+import statistics
+from GeomUtils import *
 
-class Ham_Cut:
-    """General Ham Sandwich Cut Class
-    """
+class LinearPlanarCut:
+    def __init__(self, alpha=1/32, epsilon=1/8):
+        self.alpha = alpha
+        self.epsilon = epsilon
 
-    def __init__(self, W, B, dimension):
-        """General Ham Sandwich Cut
-        
-        Arguments:
-            W {Set of points} -- White points
-            B {Set of points} -- Black points
-            dimension {int} -- Dimension of points
-        """
-        self.W = W
-        self.B = B
-        self.dimension = dimension
+    def cut(self, ham_instance):
+        self.ham_instance = ham_instance
 
-    def calculate_cut(self):
-        raise NotImplementedError
+        l, r = find_x_bounds(ham_instance.all_points)
+        #curr_interval = Interval(l-1,r+1)
+        curr_interval = Interval(-15,-10)
+        curr_red_lines = ham_instance.red_duals
+        curr_blue_lines = ham_instance.blue_duals
+        red_p = math.floor((len(ham_instance.red_points) + 1) / 2)
+        blue_p = math.floor((len(ham_instance.blue_points) + 1) / 2)
+        c = self._get_C()
+        print(self._odd_intersection(curr_interval))
 
+    def _get_C(self):
+        return self.alpha
 
-class Ham_NLogN(Ham_Cut):
-    """O(nlogn) time algorithm for ham sandwich cuts in the plane
-    """
-    pass
+    def _odd_intersection(self, interval):
+        l = interval.l
+        r = interval.r
 
-class Ham_N(Ham_Cut):
-    """O(n) time algorithm for ham sandwich cuts in the plane
-    """
+        lmr = self._find_median_level(l, self.ham_instance.red_duals)
+        lmb = self._find_median_level(l, self.ham_instance.blue_duals)
 
-    pass
+        rmr = self._find_median_level(r, self.ham_instance.red_duals)
+        rmb = self._find_median_level(r, self.ham_instance.blue_duals)
 
-class Ham_Sandwich(Ham_Cut):
-    """Ham Sandwich Cut in D-Dimensions
-    """
+        return (lmr - lmb)*(rmr - rmb) < 0
 
-    pass
+    def _find_median_level(self,x,lines):
+        y_vals = [line.b + (x * line.m) for line in lines]
+        return statistics.median(y_vals)
+

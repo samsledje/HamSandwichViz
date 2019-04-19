@@ -1,24 +1,34 @@
+import numpy as np
 from matplotlib import pyplot as plt
-from sympy.geometry import Point, Line
+from shapely.geometry import Point, LineString
+from GeomUtils import *
 
-def plot_line(L, axis, marker=None, color='b'):
+def prepare_axis(min_x=-10,max_x=10,min_y=-10,max_y=10):
+    plt.grid(True,which='major')
+    ax = plt.gca()
+    ax.set_xlim(min_x,max_x)
+    ax.set_ylim(min_y,max_y)
+    plt.xticks(np.arange(min(np.array(ax.get_xlim())), max(np.array(ax.get_xlim()))+1, 1.0))
+    plt.yticks(np.arange(min(np.array(ax.get_ylim())), max(np.array(ax.get_ylim()))+1, 1.0))
+
+def plot_line(L, linestyle='--', color='b'):
     """Add point to axis
     
     Arguments:
-        P {sympy.geometry Line}
-        axis {pyplot axis}
+        L {GeomUtils.Line}
     """
-    p1, p2 = L.points
-    axis.add_line(plt.Line2D((p1[0],p2[0]),(p1[1],p2[1]), marker=marker, color=color))
+    axes = plt.gca()
+    x_vals = np.array(axes.get_xlim())
+    y_vals = L.b + L.m * x_vals
+    plt.plot(x_vals, y_vals, ls=linestyle, color=color)
 
-def plot_point(P, axis, marker='.', color='b'):
+def plot_point(P, marker='o', color='b'):
     """Add point to axis
     
     Arguments:
-        P {sympy.geometry Point}
-        axis {pyplot axis}
+        P {shapely.geometry Point}
     """
-    plt.plot(P[0],P[1], marker=marker, color=color)
+    plt.plot(P.x,P.y, marker=marker, color=color)
 
 def plot(S):
     """Plots an array of point or line objects
