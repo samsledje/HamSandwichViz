@@ -26,7 +26,7 @@ class LinearPlanarCut:
     def show_median_intersection(self, ham_instance):
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
-        self.interval = Interval(x_min-1, x_max+1)
+        self.interval = Interval(x_min-5, x_max+5)
         #######
         red_intersections = []
         for i in range(len(self.ham_instance.red_duals)):
@@ -44,8 +44,12 @@ class LinearPlanarCut:
         red_med_levels = [Point(self.interval.l, self._find_median_level(self.interval.l, self.ham_instance.red_duals))]
         red_med_levels.extend([Point(i.x, self._find_median_level(i.x,self.ham_instance.red_duals)) for i in red_intersections])
         red_med_levels.extend([Point(self.interval.r, self._find_median_level(self.interval.r, self.ham_instance.red_duals))])
-        for i in range(0,len(red_med_levels)-2):
+
+        for i in range(0,len(red_med_levels)-1):
             plot_line_segment(LineSegment(red_med_levels[i], red_med_levels[i+1]), color='r')
+            plt.pause(0.5)
+
+        red_med_linestring = LineString(red_med_levels)
         #######
         blue_intersections = []
         for i in range(len(self.ham_instance.blue_duals)):
@@ -66,7 +70,31 @@ class LinearPlanarCut:
         
         for i in range(0,len(blue_med_levels)-1):
             plot_line_segment(LineSegment(blue_med_levels[i], blue_med_levels[i+1]), color='b')
+            plt.pause(0.5)
 
+        blue_med_linestring = LineString(blue_med_levels)
+        #######
+        ham_point = red_med_linestring.intersection(blue_med_linestring)
+        plt.pause(0.5)
+        plot_point(ham_point,color='g')
+
+        input()
+        plt.gca().clear()
+        min_x, max_x = find_x_bounds(self.ham_instance.red_points + self.ham_instance.blue_points)
+        min_y, max_y = find_y_bounds(self.ham_instance.red_points + self.ham_instance.blue_points)
+        prepare_axis(min_x-5,max_x+5,min_y-5,max_y+5)
+
+        for p in self.ham_instance.red_points:
+            plot_point(p, color='r')
+            plt.pause(0.5)
+        for p in self.ham_instance.blue_points:
+            plot_point(p, color='b')
+            plt.pause(0.5)
+        plt.pause(0.5)
+        plot_point(ham_point, color='g')
+        plot_line(compute_dual_line(ham_point),color='g')
+
+        
 
     def _get_C(self):
         return self.alpha

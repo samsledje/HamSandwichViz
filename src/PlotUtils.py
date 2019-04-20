@@ -44,14 +44,13 @@ def plot(S):
     Arguments:
         S {list} -- Elements of S must be sympy.geometry.Point or sympy.geometry.Line
     """
-    plt.axes()
-    ax = plt.gca()
 
     for element in S:
         if type(element) == type(Point(0,0)):
-            plot_point(element, ax)
+            plot_point(element)
+            plt.pause(0.5)
         elif type(element) == type(Line(Point(0,0),Point(0,1))):
-            plot_line(element, ax)
+            plot_line(element)
         else:
             raise TypeError(f'{element} is not a Point or Line, it is a {type(element)}')
 
