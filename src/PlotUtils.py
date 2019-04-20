@@ -12,7 +12,7 @@ def prepare_axis(min_x=-10,max_x=10,min_y=-10,max_y=10):
     plt.yticks(np.arange(min(np.array(ax.get_ylim())), max(np.array(ax.get_ylim()))+1, 1.0))
 
 def plot_line(L, linestyle='--', color='b'):
-    """Add point to axis
+    """Add line to axis
     
     Arguments:
         L {GeomUtils.Line}
@@ -21,6 +21,14 @@ def plot_line(L, linestyle='--', color='b'):
     x_vals = np.array(axes.get_xlim())
     y_vals = L.b + L.m * x_vals
     plt.plot(x_vals, y_vals, ls=linestyle, color=color)
+
+def plot_line_segment(L, linestyle='-', color='b'):
+    """Add line segment to axis
+    
+    Arguments:
+        L {GeomUtils.LineSegment}
+    """
+    plt.plot([L.p1.x,L.p2.x],[L.p1.y,L.p2.y], ls=linestyle, color=color, linewidth=4)
 
 def plot_point(P, marker='o', color='b'):
     """Add point to axis

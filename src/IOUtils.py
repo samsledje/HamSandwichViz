@@ -1,9 +1,9 @@
 from shapely.geometry import Point
 from PlotUtils import prepare_axis
-from GeomUtils import find_x_bounds, find_y_bounds, compute_dual_line
+from GeomUtils import find_x_bounds, find_y_bounds, compute_dual_line, Intersection
 
 class HamInstance:
-    def __init__(self, infile = None, plot_constant=1):
+    def __init__(self, infile = None, plot_constant=10):
         # Read Input Points
         self.plot_constant = plot_constant
         self.red_points = []
@@ -13,12 +13,19 @@ class HamInstance:
             self.start_input()
         else:
             self.read_points(infile)
-        self.all_points = self.red_points + self.blue_points
-
 
         # Calculate Duals
         self.red_duals = [compute_dual_line(i,self.plot_constant) for i in self.red_points]
         self.blue_duals = [compute_dual_line(i,self.plot_constant) for i in self.blue_points]
+
+        self.all_points = self.red_points + self.blue_points
+        self.all_duals = self.red_duals + self.blue_duals
+
+        # # Compute Intersections
+        # self.intersections = []
+        # for i,j in zip(self.all_duals, self.all_duals):
+        #     if not i == j:
+        #         self.intersections.append(Intersection(i,j))
 
         # Prepare Plot
         self.min_x, self.max_x = find_x_bounds(self.red_points + self.blue_points)

@@ -8,9 +8,9 @@ from PlotUtils import *
 
 def main(args):
 
-    NewCut = HamInstance(args[1],0.5)
+    NewCut = HamInstance(args[1],1)
     LPC = LinearPlanarCut()
-    LPC.cut(NewCut)
+    #LPC.cut(NewCut)
     plt.ion()
     plt.show()
     for p,d in zip(NewCut.red_points, NewCut.red_duals):
@@ -27,6 +27,7 @@ def main(args):
         plot_line(d, color='b')
         plt.draw()
         plt.pause(0.5)
+    LPC.show_median_intersection(NewCut)
     input()
 
 if __name__ == '__main__':
