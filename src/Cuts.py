@@ -2,6 +2,7 @@ import math
 from random import choice
 from GeomUtils import *
 from PlotUtils import *
+from shapely.geometry import Point
 
 class LinearPlanarCut:
     def __init__(self, alpha=1/32, epsilon=1/8):
@@ -76,17 +77,22 @@ class LinearPlanarCut:
             plt.pause(0.5)
 
         blue_med_linestring = LineString(blue_med_levels)
-
-        ham_point = red_med_linestring.intersection(blue_med_linestring)
-        plt.pause(0.5)
-        plot_point(ham_point,color='c',marker='*',size=20)
+        ham_points = red_med_linestring.intersection(blue_med_linestring)
+        if isinstance(ham_points, Point):
+            ham_points = [ham_points]
+        ham_cuts = [compute_dual_line(hp, constant=self.ham_instance.plot_constant) for hp in ham_points]
+        for hp in ham_points:
+            plot_point(hp,color='c',marker='*',size=20)
 
         input('Press Enter to View the Ham Cut')
         plt.gca().clear()
         prepare_axis(x_min-5,x_max+5,y_min-5,y_max+5)
-        plot_point(ham_point, color='c',marker='*',size=20)
+        for hp in ham_points:
+            plot_point(hp, color='c',marker='*',size=20)
         plot_point_set(self.ham_instance)
-        plot_line(compute_dual_line(ham_point),color='c',linestyle='-',)
+        for hc in ham_cuts:
+            plot_line(hc,color='c',linestyle='-',)
+            plt.pause(0.5)
    
 
     def _get_C(self):
