@@ -7,28 +7,18 @@ from GeomUtils import *
 from PlotUtils import *
 
 def main(args):
-
-    NewCut = HamInstance(args[1],1)
-    LPC = LinearPlanarCut()
-    #LPC.cut(NewCut)
+    try:
+        point_file = args[1]
+    except IndexError:
+        point_file = None
+    
     plt.ion()
     plt.show()
-    for p,d in zip(NewCut.red_points, NewCut.red_duals):
-        plot_point(p, color='r')
-        plt.draw()
-        plt.pause(0.5)
-        plot_line(d, color='r')
-        plt.draw()
-        plt.pause(0.5)
-    for p,d in zip(NewCut.blue_points, NewCut.blue_duals):
-        plot_point(p, color='b')
-        plt.draw()
-        plt.pause(0.5)
-        plot_line(d, color='b')
-        plt.draw()
-        plt.pause(0.5)
-    LPC.show_median_intersection(NewCut)
-    input()
+
+    NewCut = HamInstance(point_file,1)
+    LPC = LinearPlanarCut()
+    LPC.median_intersection_cut(NewCut)
+    check_save(NewCut)
 
 if __name__ == '__main__':
     main(sys.argv)

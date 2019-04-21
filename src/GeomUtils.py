@@ -1,6 +1,7 @@
+import random
+import numpy as np
 from shapely.geometry import Point, LineString
 from numpy.linalg import det
-import numpy as np
 
 class Line:
     def __init__(self,m,b):
@@ -56,3 +57,15 @@ def compute_dual_line(P, constant=1):
         P {shapely.geometry.Point}
     """
     return Line(constant*P.x, -P.y)
+
+def random_point(lower_bound=-10, upper_bound=10):
+    assert lower_bound <= upper_bound
+    x = random.uniform(lower_bound, upper_bound)
+    y = random.uniform(lower_bound,upper_bound)
+    return Point(x,y)
+
+def random_point_set(n, lower_bound=-10, upper_bound=10):
+    points = []
+    for i in range(n):
+        points.append(random_point(lower_bound, upper_bound))
+    return points

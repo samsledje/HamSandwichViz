@@ -1,6 +1,5 @@
 import math
 from random import choice
-import statistics
 from GeomUtils import *
 from PlotUtils import *
 
@@ -23,11 +22,15 @@ class LinearPlanarCut:
         #for i,j in zip(curr_red_lines, curr_blue_lines):
         #    plot_point(Intersection(i,j), color='g')
 
-    def show_median_intersection(self, ham_instance):
+    def median_intersection_cut(self, ham_instance):
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
+        y_min, y_max = find_y_bounds(self.ham_instance.all_points)
         self.interval = Interval(x_min-5, x_max+5)
-        #######
+        prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
+
+        plot_points_and_duals(self.ham_instance)
+
         red_intersections = []
         for i in range(len(self.ham_instance.red_duals)):
             for j in range(len(self.ham_instance.red_duals)):
@@ -50,7 +53,7 @@ class LinearPlanarCut:
             plt.pause(0.5)
 
         red_med_linestring = LineString(red_med_levels)
-        #######
+
         blue_intersections = []
         for i in range(len(self.ham_instance.blue_duals)):
             for j in range(len(self.ham_instance.blue_duals)):
@@ -73,28 +76,18 @@ class LinearPlanarCut:
             plt.pause(0.5)
 
         blue_med_linestring = LineString(blue_med_levels)
-        #######
+
         ham_point = red_med_linestring.intersection(blue_med_linestring)
         plt.pause(0.5)
-        plot_point(ham_point,color='g')
+        plot_point(ham_point,color='c',marker='*',size=20)
 
-        input()
+        input('Press Enter to View the Ham Cut')
         plt.gca().clear()
-        min_x, max_x = find_x_bounds(self.ham_instance.red_points + self.ham_instance.blue_points)
-        min_y, max_y = find_y_bounds(self.ham_instance.red_points + self.ham_instance.blue_points)
-        prepare_axis(min_x-5,max_x+5,min_y-5,max_y+5)
-
-        for p in self.ham_instance.red_points:
-            plot_point(p, color='r')
-            plt.pause(0.5)
-        for p in self.ham_instance.blue_points:
-            plot_point(p, color='b')
-            plt.pause(0.5)
-        plt.pause(0.5)
-        plot_point(ham_point, color='g')
-        plot_line(compute_dual_line(ham_point),color='g')
-
-        
+        prepare_axis(x_min-5,x_max+5,y_min-5,y_max+5)
+        plot_point(ham_point, color='c',marker='*',size=20)
+        plot_point_set(self.ham_instance)
+        plot_line(compute_dual_line(ham_point),color='c',linestyle='-',)
+   
 
     def _get_C(self):
         return self.alpha
@@ -122,5 +115,7 @@ class LinearPlanarCut:
 
     def _find_median_level(self,x,lines):
         y_vals = [line.b + (x * line.m) for line in lines]
-        return statistics.median(y_vals)
+        y_vals.sort()
+        med = math.floor((len(y_vals) + 1) / 2)
+        return y_vals[med-1]
 

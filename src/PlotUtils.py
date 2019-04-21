@@ -6,6 +6,10 @@ from GeomUtils import *
 def prepare_axis(min_x=-10,max_x=10,min_y=-10,max_y=10):
     plt.grid(True,which='major')
     ax = plt.gca()
+    min_x = int(min_x)
+    max_x = int(max_x)
+    min_y = int(min_y)
+    max_y = int(max_y)
     ax.set_xlim(min_x,max_x)
     ax.set_ylim(min_y,max_y)
     plt.xticks(np.arange(min(np.array(ax.get_xlim())), max(np.array(ax.get_xlim()))+1, 1.0))
@@ -30,31 +34,52 @@ def plot_line_segment(L, linestyle='-', color='b'):
     """
     plt.plot([L.p1.x,L.p2.x],[L.p1.y,L.p2.y], ls=linestyle, color=color, linewidth=4)
 
-def plot_point(P, marker='o', color='b'):
+def plot_point(P, marker='o', color='b',size=5):
     """Add point to axis
     
     Arguments:
         P {shapely.geometry Point}
     """
-    plt.plot(P.x,P.y, marker=marker, color=color)
+    plt.plot(P.x,P.y, marker=marker, color=color,markersize=size)
 
-def plot(S):
-    """Plots an array of point or line objects
-    
-    Arguments:
-        S {list} -- Elements of S must be sympy.geometry.Point or sympy.geometry.Line
-    """
+def plot_points_and_duals(ham_instance):
+    for p,d in zip(ham_instance.red_points, ham_instance.red_duals):
+        plot_point(p, color='r')
+        plt.draw()
+        plt.pause(0.5)
+        plot_line(d, color='r')
+        plt.draw()
+        plt.pause(0.5)
+    if ham_instance.extra_red:
+        plot_point(ham_instance.extra_red, color='r')
+        plt.pause(0.5)
+        plot_line(compute_dual_line(ham_instance.extra_red), color='r')
+        plt.pause(0.5)
+    for p,d in zip(ham_instance.blue_points, ham_instance.blue_duals):
+        plot_point(p, color='b')
+        plt.draw()
+        plt.pause(0.5)
+        plot_line(d, color='b')
+        plt.draw()
+        plt.pause(0.5)
+    if ham_instance.extra_blue:
+        plot_point(ham_instance.extra_blue, color='b')
+        plt.pause(0.5)
+        plot_line(compute_dual_line(ham_instance.extra_blue), color='b')
+        plt.pause(0.5)
 
-    for element in S:
-        if type(element) == type(Point(0,0)):
-            plot_point(element)
-            plt.pause(0.5)
-        elif type(element) == type(Line(Point(0,0),Point(0,1))):
-            plot_line(element)
-        else:
-            raise TypeError(f'{element} is not a Point or Line, it is a {type(element)}')
-
-    plt.axis('scaled')
-    plt.show()
-
-
+def plot_point_set(ham_instance):
+    for p in ham_instance.red_points:
+        plot_point(p, color='r')
+        plt.draw()
+        plt.pause(0.5)
+    if ham_instance.extra_red:
+        plot_point(ham_instance.extra_red, color='r')
+        plt.pause(0.5)
+    for p in ham_instance.blue_points:
+        plot_point(p, color='b')
+        plt.draw()
+        plt.pause(0.5)
+    if ham_instance.extra_blue:
+        plot_point(ham_instance.extra_blue, color='b')
+        plt.pause(0.5)
