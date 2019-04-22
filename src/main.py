@@ -15,7 +15,7 @@ def main(args):
     plt.ion()
     plt.show()
 
-    NewCut = HamInstance(point_file,0.5)
+    NewCut = HamInstance(point_file,1)
     LPC = LinearPlanarCut()
     LPC.median_intersection_cut(NewCut)
     check_save(NewCut)

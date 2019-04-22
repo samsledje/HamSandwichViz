@@ -14,6 +14,8 @@ def prepare_axis(min_x=-10,max_x=10,min_y=-10,max_y=10):
     ax.set_ylim(min_y,max_y)
     plt.xticks(np.arange(min(np.array(ax.get_xlim())), max(np.array(ax.get_xlim()))+1, 1.0))
     plt.yticks(np.arange(min(np.array(ax.get_ylim())), max(np.array(ax.get_ylim()))+1, 1.0))
+    plt.axhline(0, color='black')
+    plt.axvline(0, color='black')
 
 def plot_line(L, linestyle='--', color='b'):
     """Add line to axis

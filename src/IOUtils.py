@@ -27,7 +27,11 @@ class HamInstance:
         self.blue_duals = [compute_dual_line(i,self.plot_constant) for i in self.blue_points]
 
         self.all_points = self.red_points + self.blue_points
-        self.all_duals = self.red_duals + self.blue_duals
+        if self.extra_red:
+            self.all_points.append(self.extra_red)
+        if self.extra_blue:
+            self.all_points.append(self.extra_blue)
+        #self.all_duals = self.red_duals + self.blue_duals
 
         # # Compute Intersections
         # self.intersections = []
@@ -61,8 +65,8 @@ class HamInstance:
                         n_blues = int(check)
                         reds = random_point_set(n_reds)
                         blues = random_point_set(n_blues)
-                        write_point_file('randpoints.txt', reds, blues)
-                        self.read_points('randpoints.txt')
+                        write_point_file('pointsets/randpoints.txt', reds, blues)
+                        self.read_points('pointsets/randpoints.txt')
                     else:
                         print('Please enter a valid integer.')
                         self.random_input()

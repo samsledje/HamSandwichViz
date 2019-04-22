@@ -27,7 +27,9 @@ class LinearPlanarCut:
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
         y_min, y_max = find_y_bounds(self.ham_instance.all_points)
+        
         self.interval = Interval(x_min-5, x_max+5)
+        plt.title('Ham Sandwich Cut')
         prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
 
         plot_points_and_duals(self.ham_instance)
@@ -84,8 +86,9 @@ class LinearPlanarCut:
         for hp in ham_points:
             plot_point(hp,color='c',marker='*',size=20)
 
-        input('Press Enter to View the Ham Cut')
+        input('Press Enter to View the Ham Sandwich Cut')
         plt.gca().clear()
+        plt.title('Ham Sandwich Cut')
         prepare_axis(x_min-5,x_max+5,y_min-5,y_max+5)
         for hp in ham_points:
             plot_point(hp, color='c',marker='*',size=20)
