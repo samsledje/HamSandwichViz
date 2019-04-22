@@ -15,7 +15,6 @@ Visualization of solutions for the Ham Sandwich Problem
 
 ### Requirements
 - Python 3.7+
-    - sympy 1.4+
     - shapely 1.6.4+
 
 ### Team Members
