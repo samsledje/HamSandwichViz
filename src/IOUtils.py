@@ -102,10 +102,8 @@ class HamInstance:
             print("[n] Continue to blue points")
             user_choice = input().strip()
             if user_choice == "y":
-                print("You said yes!")
                 self.red_input()
             elif user_choice == "n":
-                print("You said no!")
                 self.blue_input()
             else:
                 print("We couldn't understand your response: " + user_choice)
@@ -133,10 +131,9 @@ class HamInstance:
             print("[n] Start Ham Sandwich")
             user_choice = input().strip()
             if user_choice == "y":
-                print("You said yes!")
                 self.blue_input()
             elif user_choice == "n":
-                print("You said no!")
+                print("")
             else:
                 print("We couldn't understand your response: " + user_choice)
                 print("Let's try entering in another blue point...")
