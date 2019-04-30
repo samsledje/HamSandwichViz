@@ -1,6 +1,6 @@
 from shapely.geometry import Point
-from PlotUtils import prepare_axis
-from GeomUtils import find_x_bounds, find_y_bounds, compute_dual_line, Intersection, random_point_set
+from HamSandwich.PlotUtils import prepare_axis
+from HamSandwich.GeomUtils import find_x_bounds, find_y_bounds, compute_dual_line, Intersection, random_point_set
 
 class HamInstance:
     def __init__(self, infile = None, plot_constant=10):
@@ -65,8 +65,6 @@ class HamInstance:
                         n_blues = int(check)
                         reds = random_point_set(n_reds)
                         blues = random_point_set(n_blues)
-                        write_point_file('pointsets/randpoints.txt', reds, blues)
-                        self.read_points('pointsets/randpoints.txt')
                     else:
                         print('Please enter a valid integer.')
                         self.random_input()
@@ -80,6 +78,8 @@ class HamInstance:
         except:
             print('Please enter a valid integer.')
             self.random_input()
+        write_point_file('pointsets/randpoints.txt', reds, blues)
+        self.read_points('pointsets/randpoints.txt')
 
     def red_input(self):
         print("Enter in a value for the red points")

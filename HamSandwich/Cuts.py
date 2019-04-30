@@ -1,7 +1,7 @@
 import math
 from random import choice
-from GeomUtils import *
-from PlotUtils import *
+from HamSandwich.GeomUtils import *
+from HamSandwich.PlotUtils import *
 from shapely.geometry import Point
 
 class LinearPlanarCut:

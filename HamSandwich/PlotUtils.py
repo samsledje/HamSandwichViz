@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib import animation, rc
 from shapely.geometry import Point, LineString
-from GeomUtils import *
-
+from HamSandwich.GeomUtils import *
+    
 def prepare_axis(min_x=-10,max_x=10,min_y=-10,max_y=10):
     plt.grid(True,which='major')
     ax = plt.gca()

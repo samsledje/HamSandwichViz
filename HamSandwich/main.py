@@ -2,14 +2,18 @@
 import sys
 import matplotlib.pyplot as plt
 from shapely.geometry import Point
-from Cuts import LinearPlanarCut
-from IOUtils import *
-from GeomUtils import *
-from PlotUtils import *
+from HamSandwich.Cuts import LinearPlanarCut
+from HamSandwich.IOUtils import *
+from HamSandwich.GeomUtils import *
+from HamSandwich.PlotUtils import *
 
-def main(args):
+def animate(ham_instance, cut):
+    
+    
+
+def main(file):
     try:
-        point_file = args[1]
+        point_file = file
     except IndexError:
         point_file = None
     
@@ -22,4 +26,4 @@ def main(args):
     check_save(NewCut)
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main(sys.argv[1])
