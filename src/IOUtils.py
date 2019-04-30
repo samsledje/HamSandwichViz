@@ -93,24 +93,20 @@ class HamInstance:
         p = (x,y)
         print("Adding " + "(" + str(x) + "," + str(y) + ")" + " to red points")
         self.red_points.append(Point(p))
-            
-        if len(self.red_points) < 3:
+        
+        print("Would you like to enter an additional red point?")
+        print("[y] Enter another red point")
+        print("[n] Continue to blue points")
+        user_choice = input().strip()
+        
+        if user_choice == "y":
             self.red_input()
+        elif user_choice == "n":
+            self.blue_input()
         else:
-            print("Would you like to enter an additional red point?")
-            print("[y] Enter another red point")
-            print("[n] Continue to blue points")
-            user_choice = input().strip()
-            if user_choice == "y":
-                print("You said yes!")
-                self.red_input()
-            elif user_choice == "n":
-                print("You said no!")
-                self.blue_input()
-            else:
-                print("We couldn't understand your response: " + user_choice)
-                print("Let's try entering in another red point...")
-                self.red_input()
+            print("We couldn't understand your response: " + user_choice)
+            print("Let's try entering in another red point...")
+            self.red_input()
 
     def blue_input(self):
         print("Enter in a value for the blue points")
@@ -125,22 +121,18 @@ class HamInstance:
         print("Adding " + "(" + str(x) + "," + str(y) + ")" + " to blue points")
         self.blue_points.append(Point(p))
             
-        if len(self.blue_points) < 3:
+        print("Would you like to enter an additional red point?")
+        print("[y] Enter another blue point")
+        print("[n] Start Ham Sandwich")
+        user_choice = input().strip()
+        if user_choice == "y":
             self.blue_input()
+        elif user_choice == "n":
+            print("Visualizing...")
         else:
-            print("Would you like to enter an additional red point?")
-            print("[y] Enter another blue point")
-            print("[n] Start Ham Sandwich")
-            user_choice = input().strip()
-            if user_choice == "y":
-                print("You said yes!")
-                self.blue_input()
-            elif user_choice == "n":
-                print("You said no!")
-            else:
-                print("We couldn't understand your response: " + user_choice)
-                print("Let's try entering in another blue point...")
-                self.blue_input()
+            print("We couldn't understand your response: " + user_choice)
+            print("Let's try entering in another blue point...")
+            self.blue_input()
     
     def read_points(self, infile):
         with open(infile, 'r') as f:
@@ -160,7 +152,7 @@ class HamInstance:
             write_point_file(outfile, full_reds, full_blues)
 
 def write_point_file(filename, red_points, blue_points):
-    with open(filename, 'w') as f:
+    with open(filename, 'w+') as f:
         for i in red_points:
             f.write('{},{}'.format(i.x,i.y))
             f.write(' ')
