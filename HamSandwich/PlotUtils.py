@@ -29,6 +29,14 @@ def plot_line(L, linestyle='--', color='b'):
     y_vals = L.b + L.m * x_vals
     plt.plot(x_vals, y_vals, ls=linestyle, color=color)
 
+def plot_vertical_line(x, linestyle=':', color='g', linewidth=2):
+    """Plot vertical line on axis
+    
+    Arguments:
+        x {int} -- X coordinate
+    """
+    plt.axvline(x=x, ls=linestyle, color=color, linewidth=linewidth)
+
 def plot_line_segment(L, linestyle='-', color='b'):
     """Add line segment to axis
     
@@ -45,6 +53,10 @@ def plot_point(P, marker='o', color='b',size=5):
     """
     plt.plot(P.x,P.y, marker=marker, color=color,markersize=size)
 
+def plot_interval(I, linestyle=':', color='g'):
+    plot_vertical_line(I.l+1, linestyle=linestyle, color=color, linewidth=2)
+    plot_vertical_line(I.r-1, linestyle=linestyle, color=color, linewidth=2)
+
 def plot_points_and_duals(ham_instance):
     for p,d in zip(ham_instance.red_points, ham_instance.red_duals):
         plot_point(p, color='r')
@@ -55,8 +67,10 @@ def plot_points_and_duals(ham_instance):
         plt.pause(0.5)
     if ham_instance.extra_red:
         plot_point(ham_instance.extra_red, color='r')
+        plt.draw()
         plt.pause(0.5)
         plot_line(compute_dual_line(ham_instance.extra_red), color='r')
+        plt.draw()
         plt.pause(0.5)
     for p,d in zip(ham_instance.blue_points, ham_instance.blue_duals):
         plot_point(p, color='b')

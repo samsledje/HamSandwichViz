@@ -18,10 +18,8 @@ Visualization of solutions for the Ham Sandwich Problem
     - numpy 1.16.*
     - matplotlib 1.16.*
     - shapely 1.6.4
+- Jupyter Notebook
 
 ### Team Members
 - Eric Burt
 - Sam Sledzieski
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/samsledje/HamSandwichViz/master?filepath=HamSandwich.ipynb)
-

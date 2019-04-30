@@ -39,11 +39,6 @@ class HamInstance:
         #     if not i == j:
         #         self.intersections.append(Intersection(i,j))
 
-        # Prepare Plot
-        self.min_x, self.max_x = find_x_bounds(self.red_points + self.blue_points)
-        min_y, max_y = find_y_bounds(self.red_points + self.blue_points)
-        prepare_axis(self.min_x-5,self.max_x+5,min_y-5,max_y+5)
-
     def start_input(self):
         check = input('You have not provided a point file. Do you want to input points manually [i] or use random points [r]? ')
         if check == 'i':
@@ -170,4 +165,4 @@ def check_save(ham_instance):
         pass
     else:
         print('Could not read your response.')
-        check_save(reds,blues)
+        check_save(ham_instance)

@@ -18,7 +18,8 @@ def main(file):
 
     NewCut = HamInstance(point_file,1)
     LPC = LinearPlanarCut()
-    LPC.median_intersection_cut(NewCut)
+    LPC.teach(NewCut)
+    #LPC.median_intersection_cut(NewCut)
     check_save(NewCut)
 
 if __name__ == '__main__':

@@ -23,62 +23,38 @@ class LinearPlanarCut:
         #for i,j in zip(curr_red_lines, curr_blue_lines):
         #    plot_point(Intersection(i,j), color='g')
 
-    def median_intersection_cut(self, ham_instance):
+    def teach(self, ham_instance):
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
         y_min, y_max = find_y_bounds(self.ham_instance.all_points)
-        
-        self.interval = Interval(x_min-5, x_max+5)
         plt.title('Ham Sandwich Cut')
         prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
+    
+        self.interval = Interval(x_min-5, x_max+5)
+        plt.title('Points and Duals')
+        plot_points_and_duals(self.ham_instance)
+        plt.pause(0.5)
+        plot_interval(self.interval)
+        plt.pause(0.5)
+        input('Press Enter to Compute the Cut')
+        plt.gca().clear()
+        self.median_intersection_cut(ham_instance)
 
+    def median_intersection_cut(self, ham_instance):
+        self.ham_instance = ham_instance
+        red_intersections = self._get_intersections(self.ham_instance.red_duals)
+        blue_intersections = self._get_intersections(self.ham_instance.blue_duals)
+        x_min, x_max = find_x_bounds(self.ham_instance.all_points+red_intersections+blue_intersections)
+        y_min, y_max = find_y_bounds(self.ham_instance.all_points+red_intersections+blue_intersections)
+        prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
+        self.interval = Interval(x_min, x_max)
+        
+        plt.title('Median Levels')
         plot_points_and_duals(self.ham_instance)
 
-        red_intersections = []
-        for i in range(len(self.ham_instance.red_duals)):
-            for j in range(len(self.ham_instance.red_duals)):
-                if (not i == j) and (i < j):
-                    d1 = self.ham_instance.red_duals[i]
-                    d2 = self.ham_instance.red_duals[j]
-                    new_inter = Intersection(d1,d2)
-                    if new_inter.x == np.inf:
-                        pass
-                    else:
-                        red_intersections.append(new_inter)
-        red_intersections.sort(key = lambda I: I.x)
-        
-        red_med_levels = [Point(self.interval.l, self._find_median_level(self.interval.l, self.ham_instance.red_duals))]
-        red_med_levels.extend([Point(i.x, self._find_median_level(i.x,self.ham_instance.red_duals)) for i in red_intersections])
-        red_med_levels.extend([Point(self.interval.r, self._find_median_level(self.interval.r, self.ham_instance.red_duals))])
+        red_med_linestring = self._get_med_linestring(self.ham_instance.red_duals, red_intersections, color='r')
+        blue_med_linestring = self._get_med_linestring(self.ham_instance.blue_duals, blue_intersections, color='b')
 
-        for i in range(0,len(red_med_levels)-1):
-            plot_line_segment(LineSegment(red_med_levels[i], red_med_levels[i+1]), color='r')
-            plt.pause(0.5)
-
-        red_med_linestring = LineString(red_med_levels)
-
-        blue_intersections = []
-        for i in range(len(self.ham_instance.blue_duals)):
-            for j in range(len(self.ham_instance.blue_duals)):
-                if (not i == j) and (i < j):
-                    d1 = self.ham_instance.blue_duals[i]
-                    d2 = self.ham_instance.blue_duals[j]
-                    new_inter = Intersection(d1,d2)
-                    if new_inter.x == np.inf:
-                        pass
-                    else:
-                        blue_intersections.append(new_inter)
-        blue_intersections.sort(key = lambda I: I.x)
-        
-        blue_med_levels = [Point(self.interval.l, self._find_median_level(self.interval.l, self.ham_instance.blue_duals))]
-        blue_med_levels.extend([Point(i.x, self._find_median_level(i.x,self.ham_instance.blue_duals)) for i in blue_intersections])
-        blue_med_levels.extend([Point(self.interval.r, self._find_median_level(self.interval.r, self.ham_instance.blue_duals))])
-        
-        for i in range(0,len(blue_med_levels)-1):
-            plot_line_segment(LineSegment(blue_med_levels[i], blue_med_levels[i+1]), color='b')
-            plt.pause(0.5)
-
-        blue_med_linestring = LineString(blue_med_levels)
         ham_points = red_med_linestring.intersection(blue_med_linestring)
         if isinstance(ham_points, Point):
             ham_points = [ham_points]
@@ -97,6 +73,34 @@ class LinearPlanarCut:
             plot_line(hc,color='c',linestyle='-',)
             plt.pause(0.5)
    
+    def _get_intersections(self, duals):
+
+        intersections = []
+        for i in range(len(duals)):
+            for j in range(len(duals)):
+                if (not i == j) and (i < j):
+                    d1 = duals[i]
+                    d2 = duals[j]
+                    new_inter = Intersection(d1,d2)
+                    if new_inter.x == np.inf:
+                        pass
+                    else:
+                        intersections.append(new_inter)
+        intersections.sort(key = lambda I: I.x)
+        return intersections
+
+    def _get_med_linestring(self,duals, intersections, color):
+            
+        med_levels = [Point(self.interval.l-5, self._find_median_level(self.interval.l-5, duals))]
+        med_levels.extend([Point(i.x, self._find_median_level(i.x,duals)) for i in intersections])
+        med_levels.extend([Point(self.interval.r+5, self._find_median_level(self.interval.r+5, duals))])
+
+        for i in range(0,len(med_levels)-1):
+            plot_line_segment(LineSegment(med_levels[i], med_levels[i+1]), color=color)
+            plt.pause(0.5)
+
+        return LineString(med_levels)
+
 
     def _get_C(self):
         return self.alpha

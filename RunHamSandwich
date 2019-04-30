@@ -1,0 +1,8 @@
+#!/usr/bin/python3
+import sys
+from HamSandwich.main import main
+try:
+    file = sys.argv[1]
+except:
+    file = None
+main(file)
