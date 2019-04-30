@@ -20,3 +20,6 @@ Visualization of solutions for the Ham Sandwich Problem
 ### Team Members
 - Eric Burt
 - Sam Sledzieski
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/samsledje/HamSandwichViz/master?filepath=HamSandwich.ipynb)
+

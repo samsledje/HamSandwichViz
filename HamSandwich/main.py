@@ -7,10 +7,6 @@ from HamSandwich.IOUtils import *
 from HamSandwich.GeomUtils import *
 from HamSandwich.PlotUtils import *
 
-def animate(ham_instance, cut):
-    
-    
-
 def main(file):
     try:
         point_file = file
