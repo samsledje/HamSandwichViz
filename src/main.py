@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys
 import matplotlib.pyplot as plt
 from shapely.geometry import Point

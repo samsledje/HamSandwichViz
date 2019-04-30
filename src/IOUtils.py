@@ -152,7 +152,7 @@ class HamInstance:
             write_point_file(outfile, full_reds, full_blues)
 
 def write_point_file(filename, red_points, blue_points):
-    with open(filename, 'w') as f:
+    with open(filename, 'w+') as f:
         for i in red_points:
             f.write('{},{}'.format(i.x,i.y))
             f.write(' ')
