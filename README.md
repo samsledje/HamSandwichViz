@@ -15,7 +15,9 @@ Visualization of solutions for the Ham Sandwich Problem
 
 ### Requirements
 - Python 3.7+
-    - shapely 1.6.4+
+    - numpy 1.16.*
+    - matplotlib 1.16.*
+    - shapely 1.6.4
 
 ### Team Members
 - Eric Burt
