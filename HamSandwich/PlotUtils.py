@@ -54,36 +54,36 @@ def plot_point(P, marker='o', color='b',size=5):
     plt.plot(P.x,P.y, marker=marker, color=color,markersize=size)
 
 def plot_interval(I, linestyle=':', color='g'):
-    plot_vertical_line(I.l+1, linestyle=linestyle, color=color, linewidth=2)
-    plot_vertical_line(I.r-1, linestyle=linestyle, color=color, linewidth=2)
+    plot_vertical_line(I.l, linestyle=linestyle, color=color, linewidth=2)
+    plot_vertical_line(I.r, linestyle=linestyle, color=color, linewidth=2)
 
-def plot_points_and_duals(ham_instance):
+def plot_points_and_duals(ham_instance,x=0.5):
     for p,d in zip(ham_instance.red_points, ham_instance.red_duals):
         plot_point(p, color='r')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
         plot_line(d, color='r')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
     if ham_instance.extra_red:
         plot_point(ham_instance.extra_red, color='r')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
         plot_line(compute_dual_line(ham_instance.extra_red), color='r')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
     for p,d in zip(ham_instance.blue_points, ham_instance.blue_duals):
         plot_point(p, color='b')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
         plot_line(d, color='b')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
     if ham_instance.extra_blue:
         plot_point(ham_instance.extra_blue, color='b')
-        plt.pause(0.5)
+        plt.pause(x)
         plot_line(compute_dual_line(ham_instance.extra_blue), color='b')
-        plt.pause(0.5)
+        plt.pause(x)
 
 def plot_point_set(ham_instance):
     for p in ham_instance.red_points:

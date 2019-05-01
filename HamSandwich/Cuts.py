@@ -26,31 +26,73 @@ class LinearPlanarCut:
     def teach(self, ham_instance):
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
-        y_min, y_max = find_y_bounds(self.ham_instance.all_points)
-        plt.title('Ham Sandwich Cut')
-        prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
-    
         self.interval = Interval(x_min-5, x_max+5)
-        plt.title('Points and Duals')
-        plot_points_and_duals(self.ham_instance)
+        y_min, y_max = find_y_bounds(ham_instance.all_points)
+        prepare_axis(self.interval.l-5, self.interval.r+5, y_min-5,y_max+5)
+
+        plot_points_and_duals(ham_instance,0.1)
         plt.pause(0.5)
-        plot_interval(self.interval)
-        plt.pause(0.5)
+        input('The points and their duals')
+
+        while len(self.interval) > 1:
+            self.show_interval(self.ham_instance, self.interval)
+            lint, rint = self._split_interval(self.interval)
+            print(lint)
+            input('Check left half')
+            self.show_interval(self.ham_instance, lint)
+            input('Check right half')
+            self.show_interval(self.ham_instance, rint)
+
+            if self._odd_intersection(lint):
+                self.interval = lint
+                input('Iterate on the left half')
+            else:
+                self.interval = rint
+                input('Iterate on the right half')
+            prepare_axis(self.interval.l-5, self.interval.r+5, y_min-5,y_max+5)
+
         input('Press Enter to Compute the Cut')
-        plt.gca().clear()
-        self.median_intersection_cut(ham_instance)
+        #self.median_intersection_cut(ham_instance)
+
+
+    def show_interval(self,ham_instance, interval):
+        l_red_med = self._find_median_level(interval.l,ham_instance.red_duals)
+        l_blue_med = self._find_median_level(interval.l,ham_instance.blue_duals)
+
+        r_red_med = self._find_median_level(interval.r,ham_instance.red_duals)
+        r_blue_med = self._find_median_level(interval.r,ham_instance.blue_duals)
+
+        interval_medians = [Point(interval.l, l_red_med), Point(interval.l, l_blue_med), Point(interval.r, r_red_med), Point(interval.r, r_blue_med)]
+
+        y_min, y_max = find_y_bounds(ham_instance.all_points+interval_medians)
+        prepare_axis(interval.l-5, interval.r+5, y_min-5,y_max+5)
+    
+        plt.title('Points and Duals')
+        plot_interval(interval)
+        plt.pause(0.5)
+            
+        plot_point(interval_medians[0],marker='*',color='r',size=15)
+        plot_point(interval_medians[1],marker='*',color='b',size=15)
+        plot_point(interval_medians[2],marker='*',color='r',size=15)
+        plot_point(interval_medians[3],marker='*',color='b',size=15)
+
+        if self._odd_intersection(interval):
+            print('This interval has the odd intersection property.')
+        else:
+            print('This interval does not have the odd intersection property.')
 
     def median_intersection_cut(self, ham_instance):
         self.ham_instance = ham_instance
-        red_intersections = self._get_intersections(self.ham_instance.red_duals)
-        blue_intersections = self._get_intersections(self.ham_instance.blue_duals)
-        x_min, x_max = find_x_bounds(self.ham_instance.all_points+red_intersections+blue_intersections)
-        y_min, y_max = find_y_bounds(self.ham_instance.all_points+red_intersections+blue_intersections)
+        x_min, x_max = find_x_bounds(self.ham_instance.all_points)
+        y_min, y_max = find_y_bounds(self.ham_instance.all_points)
         prepare_axis(x_min-5, x_max+5,y_min-5,y_max+5)
         self.interval = Interval(x_min, x_max)
         
         plt.title('Median Levels')
         plot_points_and_duals(self.ham_instance)
+
+        red_intersections = self._get_intersections(self.ham_instance.red_duals)
+        blue_intersections = self._get_intersections(self.ham_instance.blue_duals)
 
         red_med_linestring = self._get_med_linestring(self.ham_instance.red_duals, red_intersections, color='r')
         blue_med_linestring = self._get_med_linestring(self.ham_instance.blue_duals, blue_intersections, color='b')
@@ -113,6 +155,11 @@ class LinearPlanarCut:
                 intersections.append(i)
         random_intersection = choice(intersections)
         return Interval(interval.l,random_intersection.x), Interval(random_intersection.x,interval.r)
+
+    def _split_interval(self, interval):
+        mid = float((interval.l + interval.r) / 2.0)
+        return Interval(interval.l, mid), Interval(mid, interval.r)
+
 
     def _odd_intersection(self, interval):
         l = interval.l

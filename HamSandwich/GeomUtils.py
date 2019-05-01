@@ -19,7 +19,14 @@ class LineSegment:
 class Interval:
     def __init__(self,l,r):
         self.l = l
-        self.r =r
+        self.r = r
+        assert l < r 
+
+    def __str__(self):
+        return 'Interval from {} to {}'.format(self.l, self.r)
+
+    def __len__(self):
+        return int(self.r - self.l)
 
 class Intersection:
     def __init__(self, line1, line2):
