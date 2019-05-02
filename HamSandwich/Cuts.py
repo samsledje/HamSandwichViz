@@ -39,6 +39,7 @@ class LinearPlanarCut:
         plt.title('Points and Duals')
         plot_points_and_duals(self.ham_instance,x=0.1)
         input('Do a binary search, starting with the full interval')
+        plt.title('Binary Search')
         self._show_interval(self.ham_instance, self.interval)
 
         while len(self.interval) > self.min_interval:
@@ -127,7 +128,6 @@ class LinearPlanarCut:
         self.intervalymin = y_min
         self.intervalymax = y_max
     
-        plt.title('Points and Duals')
         plot_interval(interval)
         plt.pause(0.5)
             
