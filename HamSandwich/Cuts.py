@@ -9,18 +9,38 @@ class LinearPlanarCut:
         self.min_interval = min_interval
 
     def cut(self, ham_instance):
+        plt.gca().clear()
         self.ham_instance = ham_instance
+        x_min, x_max = find_x_bounds(self.ham_instance.all_points)
+        self.interval = Interval(x_min-40, x_max+40)
+        y_min, y_max = find_y_bounds(ham_instance.all_points)
+        prepare_axis(self.interval.l-5, self.interval.r+5, y_min-5,y_max+5)
 
-        l, r = find_x_bounds(ham_instance.all_points)
-        curr_interval = Interval(l-1,r+1)
-        curr_red_lines = ham_instance.red_duals
-        curr_blue_lines = ham_instance.blue_duals
-        red_p = math.floor((len(ham_instance.red_points) + 1) / 2)
-        blue_p = math.floor((len(ham_instance.blue_points) + 1) / 2)
-        c = self._get_C()
-        #self._get_intervals(curr_interval)
-        #for i,j in zip(curr_red_lines, curr_blue_lines):
-        #    plot_point(Intersection(i,j), color='g')
+        plt.title('Points and Duals')
+        plot_point_set(self.ham_instance,x=0.1)
+
+        plt.gca().clear()
+        prepare_axis(self.interval.l-5, self.interval.r+5, y_min-5,y_max+5)
+        plt.title('Points and Duals')
+        plot_points_and_duals(self.ham_instance,x=0.1)
+        plt.title('Binary Search')
+        self._show_interval(self.ham_instance, self.interval)
+
+        while len(self.interval) > self.min_interval:
+            lint, rint = self._split_interval(self.interval)
+            self._show_interval(self.ham_instance, lint)
+            plt.pause(0.1)
+            self._show_interval(self.ham_instance, rint)
+            plt.pause(0.1)
+
+            if self._odd_intersection(lint):
+                self.interval = lint
+            else:
+                self.interval = rint
+            self._show_interval(self.ham_instance, self.interval)
+
+        plt.pause(0.5)
+        self.median_intersection()
 
     def teach(self, ham_instance):
         plt.gca().clear()
