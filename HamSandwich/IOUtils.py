@@ -1,5 +1,6 @@
+import matplotlib.pyplot as plt
 from shapely.geometry import Point
-from HamSandwich.PlotUtils import prepare_axis
+from HamSandwich.PlotUtils import prepare_axis, plot_point_set
 from HamSandwich.GeomUtils import find_x_bounds, find_y_bounds, compute_dual_line, Intersection, random_point_set
 
 class HamInstance:
@@ -31,13 +32,6 @@ class HamInstance:
             self.all_points.append(self.extra_red)
         if self.extra_blue:
             self.all_points.append(self.extra_blue)
-        #self.all_duals = self.red_duals + self.blue_duals
-
-        # # Compute Intersections
-        # self.intersections = []
-        # for i,j in zip(self.all_duals, self.all_duals):
-        #     if not i == j:
-        #         self.intersections.append(Intersection(i,j))
 
     def start_input(self):
         check = input('You have not provided a point file. Do you want to input points manually [i] or use random points [r]? ')
@@ -145,6 +139,14 @@ class HamInstance:
             if self.extra_blue:
                 full_blues.append(self.extra_blue)
             write_point_file(outfile, full_reds, full_blues)
+    
+    def show_points(self):
+        plt.gca().clear()
+        x_min, x_max = find_x_bounds(self.all_points)
+        y_min, y_max = find_y_bounds(self.all_points)
+        prepare_axis(x_min-2, x_max+2, y_min-2, y_max+2)
+        plt.title('Points')
+        plot_point_set(self,x=0.1)
 
 def write_point_file(filename, red_points, blue_points):
     with open(filename, 'w+') as f:

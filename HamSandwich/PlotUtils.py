@@ -85,18 +85,18 @@ def plot_points_and_duals(ham_instance,x=0.5):
         plot_line(compute_dual_line(ham_instance.extra_blue), color='b')
         plt.pause(x)
 
-def plot_point_set(ham_instance):
+def plot_point_set(ham_instance,x=0.5):
     for p in ham_instance.red_points:
         plot_point(p, color='r')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
     if ham_instance.extra_red:
         plot_point(ham_instance.extra_red, color='r')
-        plt.pause(0.5)
+        plt.pause(x)
     for p in ham_instance.blue_points:
         plot_point(p, color='b')
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(x)
     if ham_instance.extra_blue:
         plot_point(ham_instance.extra_blue, color='b')
-        plt.pause(0.5)
+        plt.pause(x)
