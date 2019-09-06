@@ -92,7 +92,7 @@ class LinearPlanarCut:
         plt.gca().clear()
         self.ham_instance = ham_instance
         x_min, x_max = find_x_bounds(self.ham_instance.all_points)
-        self.interval = Interval(x_min, x_max)
+        self.interval = Interval(x_min-40, x_max+40)
         y_min, y_max = find_y_bounds(ham_instance.all_points)
         prepare_axis(self.interval.l-1, self.interval.r+1, y_min-5,y_max+5)
         self.intervalymin = y_min
